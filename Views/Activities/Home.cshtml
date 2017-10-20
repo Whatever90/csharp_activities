@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div align="center">
+    <h1 style="border-bottom: 1px solid black; width: 82%;">Hello @ViewBag.cur_user.FirstName @ViewBag.cur_user.LastName</h1>
+    <a href="/logout">Logout</a>
+    <a href="/createactivity">New Activity</a>
+</div>
+
+<div id="container" align="center">
+    <div style="margin-top: 20px">
+        <table>
+            <tr>
+                <th>Activity</th>
+                <th>Date and time</th>
+                <th>Duration</th>
+                <th>Event Coordinator</th>
+                <th>Number of Participants</th>
+                <th>Actions</th>
+            </tr>
+            @{
+                foreach(var x in ViewBag.AllA){
+                    <tr>
+                        <td style="background-color: azure; width:200px;" align="center"><a href="/activity/@x.ActivityId">@x.Name</a></td>
+                        <td>@x.Date.ToString("MMM d yyyy") at @x.Date.ToString("t")</td>
+                        <td style="background-color: azure;" align="center">@x.Duration</td>
+                        <td>@x.User.FirstName</td>
+                        <td style="background-color: azure;" align="center">@x.GuestsAmount</td>
+                        @if(x.UserId==ViewBag.cur_user.UserId){
+                            <td><a href="delete/@x.ActivityId"><span style="color: red;">Delete</span></a></td>
+                        }else{
+                            
+                                var here = 0;
+                                foreach(var guest in x.Guests){
+                                    if(guest.UserId==ViewBag.cur_user.UserId){
+                                        here = 1;
+                                    }
+                                }
+                                if(here==0){
+                                    <td><a href="attend/@x.ActivityId">Attend</a></td>
+                                } else {
+                                    <td><a href="changeyourmind/@x.ActivityId">Change your mind</a></td>
+                                }
+                        }
+                            
+                    </tr>
+                }
+                        
+                
+            }
+        </table>
+
+    </div>
+@{
+    if(ViewBag.act_err != null){
+        <p>@ViewBag.act_err</p>
+    }
+}
+</div>

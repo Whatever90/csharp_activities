@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div align="center">
+    <h1 style="border-bottom: 1px solid black; width: 82%">@ViewBag.act.Name</h1>
+    @{
+        if(ViewBag.act2_err != null){
+            <p style="color: red;">@ViewBag.act2_err</p>
+        }
+    }
+    <a href="/logout">Logout</a>
+    <a href="/home">Back</a>
+</div>
+<div id="container" align="center">
+    
+    <h3>Event Coordinator: @ViewBag.act.User.FirstName</h3>
+    <h3>Description: </h3>
+    <p>@ViewBag.act.Description</p>
+    @{
+        if(ViewBag.act.UserId==ViewBag.cur_user.UserId){
+                    <a href="/delete/@ViewBag.act.ActivityId"><span style="color: red;">Delete</span></a>
+                }else{
+                    
+                        var here = 0;
+                        foreach(var guest in ViewBag.act.Guests){
+                            if(guest.UserId==ViewBag.cur_user.UserId){
+                                here = 1;
+                            }
+                        }
+                        if(here==0){
+                            <a href="/join/@ViewBag.act.ActivityId">Join</a>
+                        } else {
+                            <a href="/cancel/@ViewBag.act.ActivityId">Change your mind</a>
+                        }
+                }
+    }
+    <h4>Participants:</h4>
+    
+    @{
+        foreach(var guest in ViewBag.act.Guests){
+            <p>@guest.User.FirstName @guest.User.LastName</p>
+        }
+    }
+            
+
+
+    
+</div>

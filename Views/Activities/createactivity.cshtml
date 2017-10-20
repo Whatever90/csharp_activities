@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Create Activity";
+}
+<div align="center">
+    <h1 style="border-bottom: 1px solid black; width: 82%">Dojo Activity Creator</h1>
+    <a href="/logout">Logout</a>
+    <a href="/home" style="margin: 120px 20px">Back</a>
+</div>
+<div id="container" align="center">
+    
+    
+
+    
+    
+            <form action="/newact" method="post" style="margin-top: 50px;">
+            <table>
+                <tr><td>Name</td> <td><input type="text" name="Name"></td></tr>
+                <tr><td>Duration</td> <td> <input type="number" name="duration1"><select name="duration2">
+                                                                                        <option value="min">Minutes</option>
+                                                                                        <option value="hours">Hours</option>
+                                                                                        <option value="days">Days</option>
+                                                                                    </select></td></tr>
+                <tr><td>Date</td> <td> <input type="datetime-local" name="Date"></td></tr>
+                <tr><td>Description</td> <td><input type="text" name="description"></td></tr>
+                </table>
+                <input type="submit" value="Create">
+                
+            </form>
+
+
+@{ if(ViewBag.act_errors!=null){
+        foreach(var error in ViewBag.act_errors)
+                {
+                    //If there are any errors for a field...
+                    if(@error["Errors"].Count > 0)
+                    {
+                        // We show the first error for that field
+                        <p style="color: red;">@error["Errors"][0]["ErrorMessage"]</p>
+                    }
+                }
+    }
+    }
+</div>
